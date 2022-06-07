@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://player placeholder.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+const upmovement=Vector2(0,-1)
+const gravity=20
+const maxfallspeed=100
+const maxspeed=200
+"
+
+[sub_resource type="CapsuleShape2D" id=2]
+
+[node name="Player" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -5.45675, -3.67496 )
+shape = SubResource( 2 )
+
+[node name="player placeholder" type="Sprite" parent="CollisionShape2D"]
+position = Vector2( -0.0358007, -0.16133 )
+scale = Vector2( 0.107149, 0.0775419 )
+texture = ExtResource( 1 )
