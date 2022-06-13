@@ -29,3 +29,8 @@ func _physics_process(_delta):
 	movement.x=50*direction
 	movement=move_and_slide(movement,upmovement)
 	$Enemybody.play("moving")
+	
+#function for if it is stomped
+func _on_Area2D_body_entered(body: Node) -> void:
+	$Enemybody.play("hurt")
+
