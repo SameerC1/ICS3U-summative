@@ -1,16 +1,16 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://scripts/enemy.gd" type="Script" id=1]
-[ext_resource path="res://Boss forms/robot_greenDamage2.png" type="Texture" id=2]
-[ext_resource path="res://Boss forms/robot_greenDrive1.png" type="Texture" id=4]
-[ext_resource path="res://Boss forms/robot_greenDrive2.png" type="Texture" id=5]
-[ext_resource path="res://Boss forms/robot_greenHurt.png" type="Texture" id=6]
+[ext_resource path="res://assets/scripts/enemy/enemy.gd" type="Script" id=1]
+[ext_resource path="res://assets/Boss forms/robot_greenDamage2.png" type="Texture" id=2]
+[ext_resource path="res://assets/Boss forms/robot_greenDrive1.png" type="Texture" id=4]
+[ext_resource path="res://assets/Boss forms/robot_greenDrive2.png" type="Texture" id=5]
+[ext_resource path="res://assets/Boss forms/robot_greenHurt.png" type="Texture" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "death",
+"frames": [ ExtResource( 6 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "hurt",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
@@ -20,11 +20,11 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 33.02, 28.4568 )
+extents = Vector2( 35.6773, 28.4568 )
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 2.5
-height = 55.0
+radius = 2.98619
+height = 53.7364
 
 [node name="enemy" type="KinematicBody2D"]
 collision_layer = 2
@@ -36,6 +36,11 @@ scale = Vector2( 0.418999, 0.521087 )
 frames = SubResource( 1 )
 animation = "moving"
 
+[node name="FloorChecker" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 40 )
+collision_mask = 4
+
 [node name="hitbox" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2.73265 )
 shape = SubResource( 2 )
@@ -43,12 +48,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="hurtbox" type="CollisionShape2D" parent="."]
+[node name="hit_checker" type="Area2D" parent="."]
 position = Vector2( 0, -28 )
 rotation = 1.5708
+collision_layer = 2
+
+[node name="hurtbox" type="CollisionShape2D" parent="hit_checker"]
+position = Vector2( -1.26564, 4.52995e-06 )
 shape = SubResource( 3 )
 
-[node name="FloorChecker" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 0, 40 )
-collision_mask = 4
+[connection signal="area_shape_entered" from="hit_checker" to="." method="_on_hit_checker_area_shape_entered"]
