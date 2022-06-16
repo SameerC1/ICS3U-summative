@@ -29,10 +29,12 @@ func _physics_process(_delta):
 		movement=move_and_slide(movement,upmovement)
 		$Enemybody.play("moving")
 	
-	#function for if it is stomped
+func _on_sidehitcheck_body_entered(body):
+	body.hit(position.x)
 
 
-func _on_hit_checker_area_shape_entered(area_id: int, area: Area2D, area_shape: int, local_shape: int) -> void:
+#function for if it is stomped
+func _on_hurt_checker_body_shape_entered(body_id: int, body: Node, body_shape: int, local_shape: int) -> void:
 	hurt=true
 	set_modulate(Color(1,0.3,0.3,0.3))
 	speed=0

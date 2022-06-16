@@ -10,7 +10,7 @@ var health=3
 #variable to be used for moving
 var movement=Vector2()
 var facingright=true
-
+var hurt=false
 
 #will be used for the movement
 func _physics_process(_delta):
@@ -38,7 +38,7 @@ func _physics_process(_delta):
 		facingright=false
 		$playersprite.play("moving")
 	else:
-		movement.x=lerp(movement.x,0,0.2)
+		movement.x=lerp(movement.x,0,0.1)
 		$playersprite.play("idle")
 	#lets you jump if you are on the floor	
 	if is_on_floor():
@@ -46,27 +46,27 @@ func _physics_process(_delta):
 			movement.y=-jumpspeed
 	
 	#plays jump animation in the air
-	if not is_on_floor():
+	if not is_on_floor() and hurt==false:
 		$playersprite.play("jump")
 	
 	#updates the movement
-	movement=move_and_slide(movement,upmovement)
+	movement=move_and_slide(movement,upmovement)	
 
 
-
-func _on_enemy_bounce_detector_area_shape_entered(area_id: int, area: Area2D, area_shape: int, local_shape: int) -> void:
-	movement.y=-jumpspeed*0.8
-	
-
-func _on_hit_detector_area_entered(area: Area2D) -> void:
-	self.hit(position.x)
 
 func hit(enemyposx):
+	hurt=true
 	set_modulate(Color(1,0.3,0.3,0.3))
 	health-=1
-	if position.x>enemyposx:
-		movement.x=-500
-	else:
-		movement.x=+500
 	movement.y=-jumpspeed*0.5
+	if position.x<enemyposx:
+		movement.x=-10000
+	elif position.x>enemyposx:
+		movement.x=+10000
 	$playersprite.play("hurt")
+	yield(get_tree().create_timer(0.5),"timeout")
+	hurt=false
+
+
+func _on_enemy_bounce_detector_body_shape_entered(body_id: int, body: Node, body_shape: int, local_shape: int) -> void:
+	movement.y=-jumpspeed*0.8
