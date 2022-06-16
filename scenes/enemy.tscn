@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/scripts/enemy/enemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/Boss forms/robot_greenDamage2.png" type="Texture" id=2]
@@ -8,23 +8,26 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 2 ) ],
-"loop": false,
-"name": "hurt",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "moving",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 35.6773, 28.4568 )
+extents = Vector2( 31.8203, 28.3347 )
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 2.98619
 height = 53.7364
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 38.6432, 28.7699 )
 
 [node name="enemy" type="KinematicBody2D"]
 collision_layer = 2
@@ -48,13 +51,23 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="hit_checker" type="Area2D" parent="."]
+[node name="hurt_checker" type="Area2D" parent="."]
 position = Vector2( 0, -28 )
 rotation = 1.5708
+scale = Vector2( 1.0384, 1 )
 collision_layer = 2
+collision_mask = 8
 
-[node name="hurtbox" type="CollisionShape2D" parent="hit_checker"]
+[node name="hurtbox" type="CollisionShape2D" parent="hurt_checker"]
 position = Vector2( -1.26564, 4.52995e-06 )
 shape = SubResource( 3 )
 
-[connection signal="area_shape_entered" from="hit_checker" to="." method="_on_hit_checker_area_shape_entered"]
+[node name="sidehitcheck" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="sidehitcheck"]
+scale = Vector2( 1.01671, 0.833052 )
+shape = SubResource( 4 )
+
+[connection signal="body_shape_entered" from="hurt_checker" to="." method="_on_hurt_checker_body_shape_entered"]
+[connection signal="body_entered" from="sidehitcheck" to="." method="_on_sidehitcheck_body_entered"]

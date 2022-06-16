@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/scripts/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Boss forms/robot_blueDrive1.png" type="Texture" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/Boss forms/robot_blueJump.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32.1849, 30.3996 )
+extents = Vector2( 32.1612, 30.5743 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -16,11 +16,6 @@ animations = [ {
 "loop": true,
 "name": "idle",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
-"loop": true,
-"name": "hurt",
-"speed": 24.0
 }, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
@@ -31,14 +26,16 @@ animations = [ {
 "loop": true,
 "name": "moving",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "hurt",
+"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 4.84203
 height = 46.5678
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 34.8389, 25.2857 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 29.3388, 3.0743 )
@@ -63,19 +60,13 @@ __meta__ = {
 current = true
 
 [node name="enemy bounce detector" type="Area2D" parent="."]
+scale = Vector2( 1.17643, 0.958714 )
+collision_layer = 8
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy bounce detector"]
-position = Vector2( 0, 25.978 )
+position = Vector2( 0, 28.0826 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
-[node name="hit detector" type="Area2D" parent="."]
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hit detector"]
-position = Vector2( 0, -4.7622 )
-shape = SubResource( 4 )
-
-[connection signal="area_shape_entered" from="enemy bounce detector" to="." method="_on_enemy_bounce_detector_area_shape_entered"]
-[connection signal="area_entered" from="hit detector" to="." method="_on_hit_detector_area_entered"]
+[connection signal="body_shape_entered" from="enemy bounce detector" to="." method="_on_enemy_bounce_detector_body_shape_entered"]
