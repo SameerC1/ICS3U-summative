@@ -12,6 +12,8 @@ var movement=Vector2()
 var facingright=true
 var hurt=false
 
+const GameOver=preload("res://scenes/Game Over.tscn")
+
 #will be used for the movement
 func _physics_process(_delta):
 	
@@ -48,24 +50,34 @@ func _physics_process(_delta):
 	#plays jump animation in the air
 	if not is_on_floor() and hurt==false:
 		$playersprite.play("jump")
+	#plays the hurt animation if the player is hurt
+	if hurt==true:
+		$playersprite.play("hurt")
+	
 	
 	#updates the movement
 	movement=move_and_slide(movement,upmovement)	
 
 
-
+#function for if hit
 func hit(enemyposx):
 	hurt=true
 	set_modulate(Color(1,0.3,0.3,0.3))
 	health-=1
 	movement.y=-jumpspeed*0.5
+	
 	if position.x<enemyposx:
 		movement.x=-10000
 	elif position.x>enemyposx:
 		movement.x=+10000
-	$playersprite.play("hurt")
 	yield(get_tree().create_timer(0.5),"timeout")
-	hurt=false
+	#shows game over screen if the player is dead
+	if health<=0:
+		get_tree().change_scene("res://scenes/Game Over.tscn")
+	else:
+		hurt=false
+		set_modulate(Color(1,0,0,0))
+
 
 
 func _on_enemy_bounce_detector_body_shape_entered(body_id: int, body: Node, body_shape: int, local_shape: int) -> void:
