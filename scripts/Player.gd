@@ -11,7 +11,6 @@ var health=3
 var movement=Vector2()
 var facingright=true
 var hurt=false
-
 const GameOver=preload("res://scenes/Game Over.tscn")
 
 #will be used for the movement
@@ -76,9 +75,9 @@ func hit(enemyposx):
 		get_tree().change_scene("res://scenes/Game Over.tscn")
 	else:
 		hurt=false
-		set_modulate(Color(1,0,0,0))
+		set_modulate(Color(1,1,1,1))
 
 
-
+#bounce function
 func _on_enemy_bounce_detector_body_shape_entered(body_id: int, body: Node, body_shape: int, local_shape: int) -> void:
 	movement.y=-jumpspeed*0.8
