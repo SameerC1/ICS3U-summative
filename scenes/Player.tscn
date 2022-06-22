@@ -17,6 +17,11 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "hurt",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "jump",
@@ -26,16 +31,11 @@ animations = [ {
 "loop": true,
 "name": "moving",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
-"loop": true,
-"name": "hurt",
-"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=3]
-radius = 4.84203
-height = 46.5678
+radius = 8.41474
+height = 46.9669
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 29.3388, 3.0743 )
